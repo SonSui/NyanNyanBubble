@@ -1,3 +1,5 @@
 ゲーム概要　NyanNyanBubble_GameOverview.png
+
 操作説明　NyanNyanBubbl_GameControl.png
+
 ゲーム本体　NyanNyanBubbleGame
