@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
     private int score;
     private int scoreTemp;
 
-    private bool isKanaboost = false;
     private float kanaboostTime = 0;
 
     // JLPT辞書マネージャー
@@ -58,6 +57,7 @@ public class GameManager : MonoBehaviour
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();    
         resultText = GameObject.Find("ResultManager").GetComponent<ResultText>();
         specialWords_Time = new string[] { "きかん", "きげん", "じかん", "とけい", "じだい", "じこく", "にちじ", "きじつ" };
+        specialWords_Time = new string[] { "いくた", "たよう", "ぞうか", "まし", "ふやす", "ます", "ふえる", "おおい" };
         score = 0;
         currentTime = timeMax;
         UpdateScore();
