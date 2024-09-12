@@ -27,4 +27,17 @@ public class Button_Script : MonoBehaviour
     {
         gameManager.ResetHiraAndGroup(true);
     }
+    public void buttonExitGame_Down()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        
+            Application.Quit();
+        #endif
+    }
+    public void buttonRanking_Down()
+    {
+        SceneManager.LoadScene("Ranking");
+    }
 }

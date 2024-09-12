@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour
     //public Text timeText;
     public WordManager wordManager;
     public SlotManager slotManager;
-    public int timeMax = 99;
+    private int timeMax = 99;
     public ProcessController processController;
-    public ScoreManager scoreManager;
+    private ScoreManager scoreManager;
     public AudioManager audioManager;
 
     // åªç›ÇÃïΩâºñºÇÃÉLÉÖÅ[
@@ -55,9 +55,10 @@ public class GameManager : MonoBehaviour
         hiraNow = new Queue<Hiragana>();
         JLPTmanager = GameObject.Find("JLPTLoader").GetComponent<VocabularyManager>();
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();    
+        scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         resultText = GameObject.Find("ResultManager").GetComponent<ResultText>();
         specialWords_Time = new string[] { "Ç´Ç©ÇÒ", "Ç´Ç∞ÇÒ", "Ç∂Ç©ÇÒ", "Ç∆ÇØÇ¢", "Ç∂ÇæÇ¢", "Ç∂Ç±Ç≠", "Ç…ÇøÇ∂", "Ç´Ç∂Ç¬" };
-        specialWords_Time = new string[] { "Ç¢Ç≠ÇΩ", "ÇΩÇÊÇ§", "ÇºÇ§Ç©", "Ç‹Çµ", "Ç”Ç‚Ç∑", "Ç‹Ç∑", "Ç”Ç¶ÇÈ", "Ç®Ç®Ç¢" };
+        specialWords_More = new string[] { "Ç¢Ç≠ÇΩ", "ÇΩÇÊÇ§", "ÇºÇ§Ç©", "Ç‹Çµ", "Ç”Ç‚Ç∑", "Ç‹Ç∑", "Ç”Ç¶ÇÈ", "Ç®Ç®Ç¢" };
         score = 0;
         currentTime = timeMax;
         UpdateScore();
@@ -324,6 +325,7 @@ public class GameManager : MonoBehaviour
             if (word == formedWord)
             {
                 string ttt = "+5âºñº";
+                kanaboostTime=3;
                 resultText.ShowText(ttt);
                 return true;
             }

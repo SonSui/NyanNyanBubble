@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    
     public static AudioManager instance;
 
     public AudioClip[] backgroundMusicClips;
@@ -17,7 +15,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        //存在しているかを確認
+        // 存在しているかを確認
         if (instance == null)
         {
             instance = this;
@@ -31,15 +29,10 @@ public class AudioManager : MonoBehaviour
         musicSource = gameObject.AddComponent<AudioSource>();
         sfxSource = gameObject.AddComponent<AudioSource>();
 
-        //循環設定
+        // 循環設定
         musicSource.loop = true;
         SetMusicVolume(0.15f);
     }
-
-   /* private void Start()
-    {
-        PlayMusicForCurrentScene();
-    }*/
 
     public void PlayMusicForCurrentScene()
     {
@@ -48,17 +41,13 @@ public class AudioManager : MonoBehaviour
         switch (sceneName)
         {
             case "Title":
-                StopMusic(backgroundMusicClips[1]);
-                PlayMusic(backgroundMusicClips[0]);
+                PlayMusic(backgroundMusicClips[0]); 
                 break;
             case "GameScene":
-                StopMusic(backgroundMusicClips[0]);
-                PlayMusic(backgroundMusicClips[1]);
-
+                PlayMusic(backgroundMusicClips[1]); 
                 break;
             case "GameOver":
-                StopMusic(backgroundMusicClips[1]);
-                PlayMusic(backgroundMusicClips[0]);
+                PlayMusic(backgroundMusicClips[0]); 
                 break;
             default:
                 Debug.LogWarning("No music assigned for this scene.");
@@ -68,22 +57,17 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusic(AudioClip clip)
     {
-        if (musicSource.clip != clip)
+        
+        if (musicSource.clip == clip && musicSource.isPlaying)
         {
-            musicSource.clip = clip;
-            musicSource.Play();
+            return; 
         }
+
+        
+        musicSource.clip = clip;
+        musicSource.Play();
     }
-    public void StopMusic(AudioClip clip)
-    {
-        /*if (musicSource.isPlaying)
-        { musicSource.Stop(); }*/
-        if (musicSource.clip != clip)
-        {
-            musicSource.clip = clip;
-            musicSource.Stop();
-        }
-    }
+
     public void PlaySoundEffect(int index)
     {
         if (index < soundEffects.Length)
@@ -95,6 +79,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound effect index out of range.");
         }
     }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -109,6 +94,7 @@ public class AudioManager : MonoBehaviour
     {
         PlayMusicForCurrentScene();
     }
+
     public void SetMusicVolume(float volume)
     {
         musicSource.volume = Mathf.Clamp(volume, 0f, 1f);
