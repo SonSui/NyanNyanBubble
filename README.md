@@ -1,3 +1,4 @@
+Unity　2022.2.9f1
 Game Overview ゲーム概要
 ![GameOverview](NyanNyanBubble_GameOverview.png)
 
