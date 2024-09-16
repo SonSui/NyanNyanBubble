@@ -346,7 +346,8 @@ public class WordManager : MonoBehaviour
         hiraQueue.Clear();
         wordLengths.Clear();
         hiraMaxNow = 8;
-        AddSpecialWord(1);
+        int ra= Random.Range(0, 3);
+        AddSpecialWord(ra);
         AddWordToEnd();
 
         for (int i = 0; i < hiraMaxNow; i++)

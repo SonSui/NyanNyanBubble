@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     // 結果表示用テキスト
     private ResultText resultText;
-    //private List<string> currentWord;
+  
 
     // 特殊単語に関連する変数
     private string SPWord;
@@ -154,6 +154,9 @@ public class GameManager : MonoBehaviour
                 {
                     Transform g = currGroup.transform.GetChild(cc);
                     Hiragana h = hiraNow.Dequeue();
+                    int x =(int)h.originalPosition.x;
+                    int y = (int)h.originalPosition.y;
+                    if(x>=-5&&x<2&&y>=-1&&y<3)wordManager.hiraTable[x + 5, y + 1] = false;
                     h.MoveTo(g.position);
                     h.transform.SetParent(g.transform);
                 }
