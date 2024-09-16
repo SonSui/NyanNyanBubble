@@ -25,7 +25,10 @@ public class Button_Script : MonoBehaviour
     }
     public void buttonRefresh_Down()
     {
-        gameManager.ResetHiraAndGroup(true);
+        if (gameManager.isGameOver == false)
+        {
+            gameManager.ResetHiraAndGroup(true);
+        }
     }
     public void buttonExitGame_Down()
     {

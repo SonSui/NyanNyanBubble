@@ -12,6 +12,7 @@ public class Hiragana : MonoBehaviour
     public Vector3 originalSize = new Vector3(1, 1, 1); // 元のサイズ
     private Vector3 worldScale;
     public bool isHint = false;
+    private Color oriCol;
     public struct MouseAct
     {
         public float magnificat;// 拡大率
@@ -195,16 +196,21 @@ public class Hiragana : MonoBehaviour
 
     void OnMouseEnter()
     {
+        oriCol = GetComponent<SpriteRenderer>().color;
         if (!isSelected)
         {
             GetComponent<SpriteRenderer>().color = Color.yellow; // マウスオーバー時に色を変更
         }
+        if(isSelected)
+        {
+            GetComponent<SpriteRenderer>().color = Color.grey;
+        }
     }
     void OnMouseExit()
     {
-        Color c = Color.white;
-        c.a = GetComponent<SpriteRenderer>().color.a;
-        GetComponent<SpriteRenderer>().color = c; // マウスが離れた時に色を元に戻す
+        /*Color c = Color.white;
+        c.a = GetComponent<SpriteRenderer>().color.a;*/
+        GetComponent<SpriteRenderer>().color = oriCol; // マウスが離れた時に色を元に戻す
     }
 
 

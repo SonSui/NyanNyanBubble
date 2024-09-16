@@ -1299,8 +1299,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Score\uFF1A"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: eca2709074718084587770e3c635d2d9, type: 2}
-  m_sharedMaterial: {fileID: 51726976441122192, guid: eca2709074718084587770e3c635d2d9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e3c10d57605ce59438d5d2e30be64b0f, type: 2}
+  m_sharedMaterial: {fileID: 92572775984132693, guid: e3c10d57605ce59438d5d2e30be64b0f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2111,8 +2111,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Name:|
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: eca2709074718084587770e3c635d2d9, type: 2}
-  m_sharedMaterial: {fileID: 51726976441122192, guid: eca2709074718084587770e3c635d2d9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e3c10d57605ce59438d5d2e30be64b0f, type: 2}
+  m_sharedMaterial: {fileID: 92572775984132693, guid: e3c10d57605ce59438d5d2e30be64b0f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
