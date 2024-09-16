@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     // UI要素とマネージャーの参照
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI overText;
     //public Text timeText;
     public WordManager wordManager;
     public SlotManager slotManager;
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     public ProcessController processController;
     private ScoreManager scoreManager;
     public AudioManager audioManager;
+    public bool isGameOver = false;
 
     // 現在の平仮名のキュー
     private Queue<Hiragana> hiraNow;
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
     private int scoreTemp;
 
     private float kanaboostTime = 0;
+    private float overTime = 0;
 
     // JLPT辞書マネージャー
     VocabularyManager JLPTmanager;
@@ -61,6 +64,7 @@ public class GameManager : MonoBehaviour
         specialWords_More = new string[] { "いくた", "たよう", "ぞうか", "まし", "ふやす", "ます", "ふえる", "おおい" };
         score = 0;
         currentTime = timeMax;
+        overText.enabled = false;
         UpdateScore();
         UpdateTime();
     }
@@ -72,12 +76,7 @@ public class GameManager : MonoBehaviour
         UpdateScore();
         UpdateTime();
 
-        // 時間が0になったらゲームオーバー
-        if (currentTime <= 0)
-        {
-            scoreManager.finalScore = score;
-            SceneManager.LoadScene("GameOver");
-        }
+        
         if(kanaboostTime > 0)
         {
             kanaboostTime -= Time.deltaTime;
@@ -90,6 +89,21 @@ public class GameManager : MonoBehaviour
 
         SPWord = wordManager.spWordNow;
         SPWordType = wordManager.spWordNowType;
+        // 時間が0になったらゲームオーバー
+        if (currentTime <= 0)
+        {
+            isGameOver = true;
+            scoreManager.finalScore = score;
+            overText.enabled=true;
+        }
+        if(isGameOver)
+        {
+            overTime += Time.deltaTime;
+            if(overTime >2)
+            {
+                SceneManager.LoadScene("GameOver");
+            }
+        }
     }
 
     // 平仮名が選択されたときの処理

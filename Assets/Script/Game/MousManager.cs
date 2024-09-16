@@ -19,7 +19,7 @@ public class MouseManager : MonoBehaviour
     void Update()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // マウスの位置を取得
-
+        if(gameManager.isGameOver)return;
         if (Input.GetMouseButtonUp(0)) // マウスの左ボタンが押されている場合
         {
             RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero); // すべてのヒットを取得
