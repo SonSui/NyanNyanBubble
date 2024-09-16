@@ -12,6 +12,7 @@ public class ScoreManager : MonoBehaviour
     private string filePath;
     private int newRecordPos=-1;
     private TextMeshProUGUI rankText;
+    private TextMeshProUGUI scoreText;
     public static ScoreManager instance;
 
     // Start is called before the first frame update
@@ -74,8 +75,10 @@ public class ScoreManager : MonoBehaviour
         }
         else if (scene.name == "Ranking")
         {
+            
             Debug.Log("Ranking Checked");
             rankText = GameObject.Find("RankingText").GetComponent<TextMeshProUGUI>();
+            scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>(); 
             DisplayRankings();
 
             return;
@@ -151,58 +154,58 @@ public class ScoreManager : MonoBehaviour
     {
         List<string> records = new List<string>();
 
-        
         if (File.Exists(filePath))
         {
             string[] lines = File.ReadAllLines(filePath);
 
-            
             for (int i = 1; i < lines.Length; i++)
             {
                 records.Add(lines[i]);
             }
         }
 
-        
-        string displayText = "";
-        int maxDisplay = 6; 
+        string rankDisplayText = "";
+        string scoreDisplayText = "";
+        int maxDisplay = 6;
 
         if (newRecordPos < 0)
         {
             for (int i = 0; i < Mathf.Min(records.Count, maxDisplay); i++)
             {
-                displayText += $"{i + 1}. {GetPlayerName(records[i])}   {GetPlayerScore(records[i])}\n";
+                rankDisplayText += $"{i + 1}. {GetPlayerName(records[i])}\n";
+                scoreDisplayText += $"{GetPlayerScore(records[i])}\n";
             }
         }
-        
         else if (newRecordPos > 0 && newRecordPos <= 6)
         {
             for (int i = 0; i < Mathf.Min(records.Count, maxDisplay); i++)
             {
-                if (i + 1 == newRecordPos) 
+                if (i + 1 == newRecordPos)
                 {
-                    displayText += $"<color=#FFA500>{i + 1}. {GetPlayerName(records[i])} {GetPlayerScore(records[i])}</color>\n";
+                    rankDisplayText += $"<color=#FFA500>{i + 1}. {GetPlayerName(records[i])}</color>\n";
+                    scoreDisplayText += $"<color=#FFA500>{GetPlayerScore(records[i])}</color>\n";
                 }
                 else
                 {
-                    displayText += $"{i + 1}. {GetPlayerName(records[i])} {GetPlayerScore(records[i])}\n";
+                    rankDisplayText += $"{i + 1}. {GetPlayerName(records[i])}\n";
+                    scoreDisplayText += $"{GetPlayerScore(records[i])}\n";
                 }
             }
         }
-        
         else if (newRecordPos > 6)
         {
-            
             for (int i = 0; i < Mathf.Min(records.Count, 5); i++)
             {
-                displayText += $"{i + 1}. {GetPlayerName(records[i])} {GetPlayerScore(records[i])}\n";
+                rankDisplayText += $"{i + 1}. {GetPlayerName(records[i])}\n";
+                scoreDisplayText += $"{GetPlayerScore(records[i])}\n";
             }
-            
-            displayText += $"<color=#FFA500>{newRecordPos}. {GetPlayerName(records[newRecordPos - 1])} {GetPlayerScore(records[newRecordPos - 1])}</color>\n";
+
+            rankDisplayText += $"<color=#FFA500>{newRecordPos}. {GetPlayerName(records[newRecordPos - 1])}</color>\n";
+            scoreDisplayText += $"<color=#FFA500>{GetPlayerScore(records[newRecordPos - 1])}</color>\n";
         }
 
-        
-        rankText.text = displayText;
+        rankText.text = rankDisplayText;  
+        scoreText.text = scoreDisplayText;
     }
     private string GetPlayerName(string record)
     {
