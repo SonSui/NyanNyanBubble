@@ -20,7 +20,7 @@ public class ProcessController : MonoBehaviour
             RectTransform progressBarRect = progressBarFill.GetComponent<RectTransform>();
             RectTransform movingImageRect = movingImage.GetComponent<RectTransform>();
             float newX = Mathf.Lerp(progressBarRect.rect.xMax, progressBarRect.rect.xMin, fillAmount);
-            movingImageRect.anchoredPosition = new Vector2(newX, movingImageRect.anchoredPosition.y);
+            movingImageRect.anchoredPosition = new Vector2(newX-5, movingImageRect.anchoredPosition.y);
         }
     }
 }
