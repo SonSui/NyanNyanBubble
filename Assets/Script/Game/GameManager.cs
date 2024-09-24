@@ -114,6 +114,7 @@ public class GameManager : MonoBehaviour
         if (spHiraWord == hiraScript.hiragana) 
         {
             MoveToSpSlot(hiraScript);
+            wordManager.hiraTable[(int)hiraScript.originalPosition.x + 5, (int)hiraScript.originalPosition.y + 1] = false;
             return;
         }
         GameObject currGroup = GetCurrentGroup();
@@ -334,6 +335,7 @@ public class GameManager : MonoBehaviour
                 string ttt = "+5 •b";
                 resultText.ShowText(ttt);
                 currentTime += 5;
+                UpdateTime();
                 return true;
             }
         }
