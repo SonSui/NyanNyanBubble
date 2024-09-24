@@ -168,6 +168,16 @@ public class WordManager : MonoBehaviour
             Debug.Log(i+" "+line);
         }
     }
+    private void ResetMap()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 7; j++)
+            {
+                hiraTable[j, i]=false;
+            }
+        }
+    }
     // 平仮名を生成する関数
     public GameObject SpawnHiragana(char hiragana)
     {
@@ -335,7 +345,7 @@ public class WordManager : MonoBehaviour
         slotManager.ClearAllGroup();
         int leng = HiraInScene.transform.childCount;
         Debug.Log("GetHiraInScene's Child" + leng.ToString());
-
+        ResetMap();
         for (int i = leng - 1; i >= 0; i--)
         {
             GameObject toDelete = HiraInScene.transform.GetChild(i).gameObject;
