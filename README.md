@@ -9,3 +9,5 @@ Game Control 操作説明　
 ![GameControl](NyanNyanBubbl_GameControl.png)
 
 Game ゲーム本体　NyanNyanBubbleGame
+
+Audio assets 音声素材：　魔王魂　https://maou.audio/
