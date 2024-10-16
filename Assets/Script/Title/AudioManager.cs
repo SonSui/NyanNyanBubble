@@ -36,36 +36,58 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMusicForCurrentScene()
     {
-        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        string sceneName = SceneManager.GetActiveScene().name;
+        AudioClip clipToPlay = null;
 
         switch (sceneName)
         {
             case "Title":
-                PlayMusic(backgroundMusicClips[0]); 
+                clipToPlay = backgroundMusicClips[0];
+                break;
+            case "Logo":
+                clipToPlay = backgroundMusicClips[0];
                 break;
             case "GameScene":
-                PlayMusic(backgroundMusicClips[1]); 
+                clipToPlay = backgroundMusicClips[1];
                 break;
             case "GameOver":
-                PlayMusic(backgroundMusicClips[0]); 
+                clipToPlay = backgroundMusicClips[0];
+                break;
+            case "Ranking":
+                clipToPlay = backgroundMusicClips[0];
                 break;
             default:
                 Debug.LogWarning("No music assigned for this scene.");
                 break;
         }
+
+        
+        if (musicSource.clip != clipToPlay)
+        {
+            PlayMusic(clipToPlay);
+        }
     }
 
     public void PlayMusic(AudioClip clip)
     {
-        
+
         if (musicSource.clip == clip && musicSource.isPlaying)
         {
-            return; 
+            return;
         }
 
         
         musicSource.clip = clip;
         musicSource.Play();
+
+        if (clip != null)
+        {
+            Debug.Log("Now playing: " + clip.name);
+        }
+        else
+        {
+            Debug.Log("No audio clip is set.");
+        }
     }
 
     public void PlaySoundEffect(int index)
