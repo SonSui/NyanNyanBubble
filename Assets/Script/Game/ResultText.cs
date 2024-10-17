@@ -8,22 +8,29 @@ public class ResultText : MonoBehaviour
 {
     public TextMeshProUGUI text;
     float cntTime;
-    public float showTime = 0.7f;
-    // Start is called before the first frame update
+    public float showTime = 1.8f;
+    public GameObject imageUI;
+    
     void Start()
     {
         cntTime = 0;
+        imageUI.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
         cntTime += Time.deltaTime;
-        if (cntTime > showTime) ClearText();
+        if (cntTime > showTime)
+        {
+            ClearText();
+            
+        }
     }
     public void ClearText()
     {
         text.text = null;
+        imageUI.SetActive(false);
     }
     public void ShowText(string te_)
     {
@@ -31,6 +38,17 @@ public class ResultText : MonoBehaviour
         {
             cntTime = 0;
             text.text = te_;
+            imageUI.SetActive(true);
+        }
+        //GetComponent<AudioSource>().Play();
+    }
+    public void ShowTextWithAudio(string st_)
+    {
+        if (cntTime > showTime)
+        {
+            cntTime = 0;
+            text.text = st_;
+            imageUI.SetActive(true);
         }
         GetComponent<AudioSource>().Play();
     }

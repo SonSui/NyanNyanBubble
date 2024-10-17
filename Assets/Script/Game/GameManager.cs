@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +10,8 @@ public class GameManager : MonoBehaviour
     // UI要素とマネージャーの参照
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI overText;
-    //public Text timeText;
+
+
     public WordManager wordManager;
     public SlotManager slotManager;
     private int timeMax = 99;
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     // 結果表示用テキスト
     private ResultText resultText;
-  
+    private HintText hintText;
 
     // 特殊単語に関連する変数
     private string SPWord;
@@ -47,6 +49,11 @@ public class GameManager : MonoBehaviour
     private float kanaboostTime = 0;
     private float overTime = 0;
 
+    private float preScoreTimeR = 0f;
+    private float preScoreTimeH = 0f;
+    private const float PRE_SCORE_TIME_R = 10f;
+    private const float PRE_SCORE_TIME_H = 15f;
+
     // JLPT辞書マネージャー
     VocabularyManager JLPTmanager;
 
@@ -60,11 +67,14 @@ public class GameManager : MonoBehaviour
         audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();    
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         resultText = GameObject.Find("ResultManager").GetComponent<ResultText>();
+        hintText = GameObject.Find("HintManager").GetComponent<HintText>();
         specialWords_Time = new string[] { "きかん", "きげん", "じかん", "とけい", "じだい", "じこく", "にちじ", "きじつ" };
         specialWords_More = new string[] { "いくた", "たよう", "ぞうか", "まし", "ふやす", "ます", "ふえる", "おおい" };
         score = 0;
         currentTime = timeMax;
         overText.enabled = false;
+        preScoreTimeR = 0f;
+        preScoreTimeH = 0f;
         UpdateScore();
         UpdateTime();
     }
@@ -73,6 +83,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         currentTime -= Time.deltaTime;
+        preScoreTimeR += Time.deltaTime;
+        preScoreTimeH += Time.deltaTime;
         UpdateScore();
         UpdateTime();
 
@@ -85,6 +97,17 @@ public class GameManager : MonoBehaviour
         else
         {
             wordManager.hiraMaxNow = 8;
+        }
+
+        if (preScoreTimeR > PRE_SCORE_TIME_R) 
+        {
+            ShowHintWord();
+            preScoreTimeR = 0f;
+        }
+        if(preScoreTimeH > PRE_SCORE_TIME_H)
+        {
+            ShowHintRefresh();
+            preScoreTimeH = -30f;
         }
 
         SPWord = wordManager.spWordNow;
@@ -165,9 +188,10 @@ public class GameManager : MonoBehaviour
                 if (currentScore < 1) { currentScore = 1; }
                 scoreTemp = currentScore;
                 score += scoreTemp;
-                string ttt = "+" + scoreTemp.ToString() + "点";
-                resultText.ShowText(ttt);
+                string ttt =  scoreTemp.ToString() + "点取ったニャン！";
+                resultText.ShowTextWithAudio(ttt);
                 slotManager.RemoveSlot(currGroup);
+                preScoreTimeR = 0;
             }
 
             else
@@ -332,8 +356,8 @@ public class GameManager : MonoBehaviour
         {
             if (word == formedWord)
             {
-                string ttt = "+5 秒";
-                resultText.ShowText(ttt);
+                string ttt = "５秒取ったニャン！";
+                resultText.ShowTextWithAudio(ttt);
                 currentTime += 5;
                 UpdateTime();
                 return true;
@@ -343,9 +367,9 @@ public class GameManager : MonoBehaviour
         {
             if (word == formedWord)
             {
-                string ttt = "+5仮名";
+                string ttt = "ひらがな増えたニャン！";
                 kanaboostTime=3;
-                resultText.ShowText(ttt);
+                resultText.ShowTextWithAudio(ttt);
                 return true;
             }
         }
@@ -430,21 +454,21 @@ public class GameManager : MonoBehaviour
         switch (SPWordType)
         {
             case 0:
-                rText = "+" + scoreTemp.ToString();
-                resultText.ShowText(rText);
+                rText = scoreTemp.ToString()+"点ボーナス取ったニャン！";
+                resultText.ShowTextWithAudio(rText);
                 break;
             case 1:
-                rText = "+" + scoreTemp.ToString() + "点" + "  +5秒";
+                rText =  "５秒取ったニャン！";//scoreTemp.ToString() + "点ボーナスと" + 
                 currentTime += 5;
                 UpdateTime();
-                resultText.ShowText(rText);
+                resultText.ShowTextWithAudio(rText);
                 break;
             case 2:
-                rText = "+" + scoreTemp.ToString() + "点" + "  +5仮名";
+                rText = "ひらがな増えたニャン！";
                 //currentTime += 5;
                 kanaboostTime = 3;
                 UpdateTime();
-                resultText.ShowText(rText);
+                resultText.ShowTextWithAudio(rText);
                 break;
         }
     }
@@ -456,11 +480,24 @@ public class GameManager : MonoBehaviour
         {
             if (score > 20) score -= 20;
             else score = 0;
-            string rText = "-20点";
-            resultText.ShowText(rText);
+            string rText = "20点減点ニャン！！";
+            resultText.ShowTextWithAudio(rText);
         }
         hiraNow.Clear();
         spIndex = 0;
         wordManager.RefreshAllHira();
+    }
+    private void ShowHintWord()
+    {
+        
+        GameObject currGroup = GetCurrentGroup();
+        int len= currGroup.transform.childCount;
+        string te = len.ToString()+"文字の言葉を組み合わせてニャン！";
+        resultText.ShowText(te);
+    }
+    private void ShowHintRefresh()
+    {
+        string te = "左上に更新バブルあるニャン！";
+        hintText.ShowText(te);
     }
 }
