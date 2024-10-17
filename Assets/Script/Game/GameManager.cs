@@ -51,8 +51,8 @@ public class GameManager : MonoBehaviour
 
     private float preScoreTimeR = 0f;
     private float preScoreTimeH = 0f;
-    private const float PRE_SCORE_TIME_R = 10f;
-    private const float PRE_SCORE_TIME_H = 15f;
+    private const float PRE_SCORE_TIME_R = 20f;
+    private const float PRE_SCORE_TIME_H = 45f;
 
     // JLPT辞書マネージャー
     VocabularyManager JLPTmanager;
@@ -73,8 +73,8 @@ public class GameManager : MonoBehaviour
         score = 0;
         currentTime = timeMax;
         overText.enabled = false;
-        preScoreTimeR = 0f;
-        preScoreTimeH = 0f;
+        preScoreTimeR = 5f;
+        preScoreTimeH = 13f;
         UpdateScore();
         UpdateTime();
     }
@@ -104,10 +104,19 @@ public class GameManager : MonoBehaviour
             ShowHintWord();
             preScoreTimeR = 0f;
         }
+        if (preScoreTimeH > PRE_SCORE_TIME_H - 31f && preScoreTimeH < PRE_SCORE_TIME_H - 30f)
+        {
+            ShowHintSP();
+        }
+        if (preScoreTimeH > PRE_SCORE_TIME_H-21f&&preScoreTimeH<PRE_SCORE_TIME_H-20.7f)
+        {
+            ShowHintCancel();
+        }
+        
         if(preScoreTimeH > PRE_SCORE_TIME_H)
         {
             ShowHintRefresh();
-            preScoreTimeH = -30f;
+            preScoreTimeH = -15f;
         }
 
         SPWord = wordManager.spWordNow;
@@ -188,7 +197,7 @@ public class GameManager : MonoBehaviour
                 if (currentScore < 1) { currentScore = 1; }
                 scoreTemp = currentScore;
                 score += scoreTemp;
-                string ttt =  scoreTemp.ToString() + "点取ったニャン！";
+                string ttt =  scoreTemp.ToString() + "点取った　ニャン！";
                 resultText.ShowTextWithAudio(ttt);
                 slotManager.RemoveSlot(currGroup);
                 preScoreTimeR = 0;
@@ -356,7 +365,7 @@ public class GameManager : MonoBehaviour
         {
             if (word == formedWord)
             {
-                string ttt = "５秒取ったニャン！";
+                string ttt = "５秒取った　ニャン！";
                 resultText.ShowTextWithAudio(ttt);
                 currentTime += 5;
                 UpdateTime();
@@ -367,7 +376,7 @@ public class GameManager : MonoBehaviour
         {
             if (word == formedWord)
             {
-                string ttt = "ひらがな増えたニャン！";
+                string ttt = "バブル増えた　ニャン！";
                 kanaboostTime=3;
                 resultText.ShowTextWithAudio(ttt);
                 return true;
@@ -458,17 +467,17 @@ public class GameManager : MonoBehaviour
         switch (SPWordType)
         {
             case 0:
-                rText = scoreTemp.ToString()+"点ボーナス取ったニャン！";
+                rText = scoreTemp.ToString()+"点ボーナス取った　ニャン！";
                 resultText.ShowTextWithAudio(rText);
                 break;
             case 1:
-                rText =  "５秒取ったニャン！";//scoreTemp.ToString() + "点ボーナスと" + 
+                rText =  "５秒取った　ニャン！";//scoreTemp.ToString() + "点ボーナスと" + 
                 currentTime += 5;
                 UpdateTime();
                 resultText.ShowTextWithAudio(rText);
                 break;
             case 2:
-                rText = "ひらがな増えたニャン！";
+                rText = "バブル増えた　ニャン！";
                 //currentTime += 5;
                 kanaboostTime = 3;
                 UpdateTime();
@@ -484,7 +493,7 @@ public class GameManager : MonoBehaviour
         {
             if (score > 20) score -= 20;
             else score = 0;
-            string rText = "20点減点ニャン！！";
+            string rText = "20点減点　ニャン！！";
             resultText.ShowTextWithAudio(rText);
         }
         hiraNow.Clear();
@@ -496,12 +505,22 @@ public class GameManager : MonoBehaviour
         
         GameObject currGroup = GetCurrentGroup();
         int len= currGroup.transform.childCount;
-        string te = len.ToString()+"文字の言葉を組み合わせてニャン！";
+        string te = len.ToString()+"文字の言葉を組み合わせて　ニャン！";
         resultText.ShowText(te);
     }
     private void ShowHintRefresh()
     {
-        string te = "左上に更新バブルあるニャン！";
+        string te = "左上に更新バブルある　ニャン！";
+        hintText.ShowText(te);
+    }
+    private void ShowHintSP()
+    {
+        string te = "下のおすすめ言葉は優先に組み合わせられる　ニャン！";
+        hintText.ShowText(te);
+    }
+    private void ShowHintCancel()
+    {
+        string te = "右クリックでキャンセル　ニャン！";
         hintText.ShowText(te);
     }
 }
