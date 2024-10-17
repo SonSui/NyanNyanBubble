@@ -63,6 +63,7 @@ public class Hiragana : MonoBehaviour
     private bool onDef = true;
     private bool onMove = false;
     
+    
 
     void Start()
     {
@@ -110,6 +111,14 @@ public class Hiragana : MonoBehaviour
         onDef = false;
         isHint = false;
         onMove = true;
+    }
+    public void OnHint()
+    {
+        isHint = true;
+    }
+    public bool IsHint()
+    {
+        return isHint;
     }
     public void CancelSelect()
     {
@@ -196,7 +205,9 @@ public class Hiragana : MonoBehaviour
 
     void OnMouseEnter()
     {
+        
         oriCol = GetComponent<SpriteRenderer>().color;
+        if (isHint) return;
         if (!isSelected)
         {
             GetComponent<SpriteRenderer>().color = Color.yellow; // マウスオーバー時に色を変更
@@ -208,6 +219,7 @@ public class Hiragana : MonoBehaviour
     }
     void OnMouseExit()
     {
+        
         /*Color c = Color.white;
         c.a = GetComponent<SpriteRenderer>().color.a;*/
         GetComponent<SpriteRenderer>().color = oriCol; // マウスが離れた時に色を元に戻す
@@ -244,7 +256,7 @@ public class Hiragana : MonoBehaviour
         transform.localScale = originalSize;
         onDef = false;
         onMove = false;
-        isSelected = false;
+        isSelected = true;
     }
 
     private System.Collections.IEnumerator MoveToRoundTrip(Vector3 targetPosition)

@@ -94,6 +94,7 @@ public class SlotManager : MonoBehaviour
             cl.a = 0.5f;
             newHira.GetComponent<SpriteRenderer>().color = cl;
             newHira.transform.SetParent(child.transform);
+            newHira.GetComponent<Hiragana>().OnHint();
         }
 
         Vector3 pos = group_.transform.position + new Vector3(1.3f * c, 0, 0);

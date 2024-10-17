@@ -47,6 +47,7 @@ public class MouseManager : MonoBehaviour
             {
                 RaycastHit2D hit = hits[0];
                 Hiragana hiraganaScript = hit.collider.gameObject.GetComponent<Hiragana>();
+                if(hiraganaScript.IsHint())return;
                 if (hiraganaScript != null && hiraganaScript.isSelect()) // 既に選択されていないかどうかを確認
                 {
                     Debug.Log("Mouse is cancelling : " + hit.collider.gameObject.name); // デバッグメッセージ

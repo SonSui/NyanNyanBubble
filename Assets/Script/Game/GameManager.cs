@@ -325,7 +325,7 @@ public class GameManager : MonoBehaviour
     // Œ»Ý‚ÌƒOƒ‹[ƒv‚ðŽæ“¾
     private GameObject GetCurrentGroup()
     {
-        Debug.Log("in get current");
+        //Debug.Log("get current");
         int cm = slotManager.wordGroups.Count;
         if (cm > 0)
         {
@@ -413,17 +413,21 @@ public class GameManager : MonoBehaviour
     {
         GameObject group = slotManager.specialGroup;
         Transform parent;
+        
 
         if (group.transform.childCount > 0 && group != null)
         {
             Transform preP = group.transform.GetChild(0);
             if (preP.childCount > spIndex && preP != null)
             {
+                
                 parent = preP.GetChild(spIndex);
                 Hiragana pChild0 = parent.GetChild(0).GetComponent<Hiragana>();
                 if (pChild0.hiragana != hira.hiragana) Debug.Log("SpCompare Error");
                 hira.MoveTo(parent.position);
                 hira.transform.SetParent(parent);
+                hira.NoSelectOption();
+                hira.OnHint();
                 spIndex++;
                 if (spIndex >= SPWord.Length)
                     SpWordComplete(preP.gameObject);
