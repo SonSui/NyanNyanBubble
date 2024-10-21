@@ -14,11 +14,10 @@ public class WordManager : MonoBehaviour
 
     // 平仮名に関する変数
     public int hiraCount;
-    public const int hiraMax = 8;
-    public int hiraMaxNow = 8;
+    public const int hiraMax = 20;
+    public int hiraMaxNow = 20;
     public string spWordNow = null;
     public int spWordNowType = 0;
-    public bool[,] hiraTable = new bool[7,3];
     struct pos
     {
         public int x, y;
@@ -52,13 +51,7 @@ public class WordManager : MonoBehaviour
             "きかん", "きげん", "じかん" , "とけい", "じだい", "じこく", "にちじ", "きじつ",
             "いくた","たよう","ぞうか","まし","ふやす","ます","ふえる","おおい"
         };
-        for(int i=0;i<7;i++)
-        {
-            for(int j=0;j<3;j++)
-            {
-                hiraTable[i, j] = false;
-            }
-        }
+        
         LoadHiraganaPrefabs();
         if (VocabularyManager.Instance != null)
         {
@@ -136,61 +129,21 @@ public class WordManager : MonoBehaviour
             AddHiraToScene();
         }
     }
-    private pos ReturnNullMap()
-    {
-        int x;
-        int y;
-        int t = 0;
-        pos re;
-        do
-        {
-            x = Random.Range(0, 7);
-            y = Random.Range(0, 3);
-            t++;
-            if (t > 200) break;
-        } while (hiraTable[x, y] != false);
 
-        re.x = x-5;
-        re.y = y-1;
-        return re;
-        
-    }
-    private void ShowMap()
-    {
-        string line;
-        for(int i=0;i<3;i++)
-        {
-            line = "";
-            for(int j=0;j<7;j++)
-            {
-                line += hiraTable[j, i].ToString();
-            }
-            Debug.Log(i+" "+line);
-        }
-    }
-    private void ResetMap()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 7; j++)
-            {
-                hiraTable[j, i]=false;
-            }
-        }
-    }
+
+    
     // 平仮名を生成する関数
     public GameObject SpawnHiragana(char hiragana)
     {
         GameObject prefab = GetPrefabForHiragana(hiragana);
         if (prefab != null)
         {
-            //float rx = Random.Range(-6.0f, 2.2f);
-            //float ry = Random.Range(-1.6f, 2.0f);
-            pos p= ReturnNullMap();
-            Vector3 pos = new Vector3(p.x, p.y, 0);
+            float rx = Random.Range(-6.0f, 2.2f);
+            float ry = Random.Range(-1.6f, 2.0f);
+            
+            Vector3 pos = new Vector3(rx, ry, 0);
             GameObject newHira = Instantiate(prefab, pos, Quaternion.identity);
-            hiraTable[p.x + 5, p.y + 1]=true;
-            //ShowMap();
+            
             return newHira;
         }
         else
@@ -219,7 +172,7 @@ public class WordManager : MonoBehaviour
     {
         int rate = Random.Range(0, 100);
         string word;
-        if (rate >= 60)
+        if (rate >= 50)
         {
             int rmax = specialWords.Count;
             int index = Random.Range(0, rmax);
@@ -345,7 +298,7 @@ public class WordManager : MonoBehaviour
         slotManager.ClearAllGroup();
         int leng = HiraInScene.transform.childCount;
         Debug.Log("GetHiraInScene's Child" + leng.ToString());
-        ResetMap();
+      
         for (int i = leng - 1; i >= 0; i--)
         {
             GameObject toDelete = HiraInScene.transform.GetChild(i).gameObject;

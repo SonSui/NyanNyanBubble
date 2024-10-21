@@ -92,11 +92,11 @@ public class GameManager : MonoBehaviour
         if(kanaboostTime > 0)
         {
             kanaboostTime -= Time.deltaTime;
-            wordManager.hiraMaxNow = 13;
+            wordManager.hiraMaxNow = 30;
         }
         else
         {
-            wordManager.hiraMaxNow = 8;
+            wordManager.hiraMaxNow = 20;
         }
 
         if (preScoreTimeR > PRE_SCORE_TIME_R) 
@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
         if (spHiraWord == hiraScript.hiragana) 
         {
             MoveToSpSlot(hiraScript);
-            wordManager.hiraTable[(int)hiraScript.originalPosition.x + 5, (int)hiraScript.originalPosition.y + 1] = false;
+            
             return;
         }
         GameObject currGroup = GetCurrentGroup();
@@ -189,11 +189,11 @@ public class GameManager : MonoBehaviour
                     Hiragana h = hiraNow.Dequeue();
                     int x =(int)h.originalPosition.x;
                     int y = (int)h.originalPosition.y;
-                    if(x>=-5&&x<2&&y>=-1&&y<3)wordManager.hiraTable[x + 5, y + 1] = false;
+                    
                     h.MoveTo(g.position);
                     h.transform.SetParent(g.transform);
                 }
-                currentScore = length * (length - 1);
+                currentScore = length * length + 1;
                 if (currentScore < 1) { currentScore = 1; }
                 scoreTemp = currentScore;
                 score += scoreTemp;
@@ -460,7 +460,7 @@ public class GameManager : MonoBehaviour
         spIndex = 0;
         slotManager.RemoveSpecialSlot(SpGroupNow);
         string rText;
-        int scoreTemp = SPWord.Length * 5;
+        int scoreTemp = SPWord.Length * 5+3;
         score += scoreTemp;
         UpdateScore();
 
@@ -491,9 +491,9 @@ public class GameManager : MonoBehaviour
     {
         if (isDeduction)
         {
-            if (score > 20) score -= 20;
+            if (score > 5) score -= 5;
             else score = 0;
-            string rText = "20点減点　ニャン！！";
+            string rText = "5点減点　ニャン！！";
             resultText.ShowTextWithAudio(rText);
         }
         hiraNow.Clear();
