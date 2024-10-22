@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         if(kanaboostTime > 0)
         {
             kanaboostTime -= Time.deltaTime;
-            wordManager.hiraMaxNow = 30;
+            wordManager.hiraMaxNow = 25;
         }
         else
         {

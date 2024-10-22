@@ -94,7 +94,7 @@ public class Hiragana : MonoBehaviour
         float r = math.min(rx, ry);
         float l = math.min(30, r);
         defAct = new DefaultAction(
-            UnityEngine.Random.Range(1, 3),
+            UnityEngine.Random.Range(2, 3),
             UnityEngine.Random.Range(0, 90),
             UnityEngine.Random.Range(l, r),
             UnityEngine.Random.Range(1.0f, 3.0f),

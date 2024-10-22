@@ -172,7 +172,7 @@ public class WordManager : MonoBehaviour
     {
         int rate = Random.Range(0, 100);
         string word;
-        if (rate >= 50)
+        if (rate >= 80)
         {
             int rmax = specialWords.Count;
             int index = Random.Range(0, rmax);

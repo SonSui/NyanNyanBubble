@@ -110,13 +110,16 @@ public class VocabularyManager : MonoBehaviour
     public string AddWordToQueue(Queue<string> targetQueue)
     {
         System.Random random = new System.Random();
+        int r = UnityEngine.Random.Range(0,100);
+        if (r > 30) r = 3;
+        else r = 2;
         string selectedWord;
         int addedCount = 0;
         do
         {
             int index = random.Next(wordList.Count);
             selectedWord = wordList[index].reading;
-        } while (selectedWord.Length > 3);
+        } while (selectedWord.Length > r);
 
         foreach (char c in selectedWord)
         {
