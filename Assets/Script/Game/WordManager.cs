@@ -62,7 +62,7 @@ public class WordManager : MonoBehaviour
             foreach (string word in spWords_More)specialWords_More.Add(word);
             foreach (string word in spWords_Time)specialWords_Time.Add(word);
             AddSpecialWord(1);
-            AddWordToEnd();
+            AddWordToEnd(2);
             for (int i = 0; i < hiraMaxNow; i++)
             {
                 AddHiraToScene();
@@ -168,7 +168,7 @@ public class WordManager : MonoBehaviour
     }
 
     // 単語をキューの末尾に追加する関数
-    private void AddWordToEnd()
+    private void AddWordToEnd(int len = 0)
     {
         int rate = Random.Range(0, 100);
         string word;
@@ -180,7 +180,11 @@ public class WordManager : MonoBehaviour
         }
         else
         {
-            word = VocabularyManager.Instance.AddWordToQueue(hiraQueue);
+            int rateLen = Random.Range(0, 100);
+            int len_ = 3;
+            if (rateLen > 60) len_ = 2;
+            if (len != 0) { len_ = len; }
+            word = VocabularyManager.Instance.AddWordToQueue(hiraQueue,len_);
         }
         int length = word.Length;
         wordLengths.Add(length);

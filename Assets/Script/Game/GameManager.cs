@@ -92,11 +92,11 @@ public class GameManager : MonoBehaviour
         if(kanaboostTime > 0)
         {
             kanaboostTime -= Time.deltaTime;
-            wordManager.hiraMaxNow = 25;
+            wordManager.hiraMaxNow = 23;
         }
         else
         {
-            wordManager.hiraMaxNow = 20;
+            wordManager.hiraMaxNow = 18;
         }
 
         if (preScoreTimeR > PRE_SCORE_TIME_R) 
