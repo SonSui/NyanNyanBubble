@@ -20,7 +20,7 @@ public class Hiragana : MonoBehaviour
     private Vector3 posBeforeMove;
 
     public SpriteRenderer spriteRenderer; // SpriteRendererの参照
-    private Collider2D collider2D; // Collider2Dの参照
+    private Collider2D colliderThis; // Collider2Dの参照
 
     public struct MouseAct
     {
@@ -80,7 +80,7 @@ public class Hiragana : MonoBehaviour
     void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRendererを取得
-        collider2D = GetComponent<Collider2D>(); // Collider2Dを取得
+        colliderThis = GetComponent<Collider2D>(); // Collider2Dを取得
 
         // 初期スケールを小さな値に設定
         transform.localScale = Vector3.zero;
@@ -153,7 +153,7 @@ public class Hiragana : MonoBehaviour
             // OnHint、OnSelected、移動中の場合、マスクの影響を受けない
             spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
             // コライダーを有効化
-            collider2D.enabled = true; // コライダーを有効にする
+            colliderThis.enabled = true; // コライダーを有効にする
         }
         else
         {
@@ -163,11 +163,11 @@ public class Hiragana : MonoBehaviour
             // スプライトが表示されているか確認
             if (spriteRenderer.isVisible)
             {
-                collider2D.enabled = true; // コライダーを有効にする
+                colliderThis.enabled = true; // コライダーを有効にする
             }
             else
             {
-                collider2D.enabled = false; // コライダーを無効にする
+                colliderThis.enabled = false; // コライダーを無効にする
             }
         }
     }
@@ -187,7 +187,7 @@ public class Hiragana : MonoBehaviour
 
         // マスクの影響を受けない
         spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
-        collider2D.enabled = true; // コライダーを有効にする
+        colliderThis.enabled = true; // コライダーを有効にする
 
         // Order in Layerを1に設定
         spriteRenderer.sortingOrder = 1;
@@ -199,7 +199,7 @@ public class Hiragana : MonoBehaviour
 
         // マスクの影響を受けない
         spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
-        collider2D.enabled = true; // コライダーを有効にする
+       
     }
 
     public bool IsHint()
@@ -221,11 +221,11 @@ public class Hiragana : MonoBehaviour
         // スプライトが表示されているか確認
         if (spriteRenderer.isVisible)
         {
-            collider2D.enabled = true; // コライダーを有効にする
+            colliderThis.enabled = true; // コライダーを有効にする
         }
         else
         {
-            collider2D.enabled = false; // コライダーを無効にする
+            colliderThis.enabled = false; // コライダーを無効にする
         }
 
         // Order in Layerを0に設定
@@ -240,7 +240,7 @@ public class Hiragana : MonoBehaviour
 
         // マスクの影響を受けない
         spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
-        collider2D.enabled = true; // コライダーを有効にする
+        colliderThis.enabled = true; // コライダーを有効にする
 
         // Order in Layerを1に設定
         spriteRenderer.sortingOrder = 1;
@@ -350,7 +350,7 @@ public class Hiragana : MonoBehaviour
 
         // マスクの影響を受けない
         spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
-        collider2D.enabled = true; // コライダーを有効にする
+        colliderThis.enabled = true; // コライダーを有効にする
 
         // Order in Layerを1に設定
         spriteRenderer.sortingOrder = 1;
@@ -366,7 +366,7 @@ public class Hiragana : MonoBehaviour
 
         // マスクの影響を受けない
         spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
-        collider2D.enabled = true; // コライダーを有効にする
+        colliderThis.enabled = true; // コライダーを有効にする
         posBeforeMove = transform.position;
 
         // Order in Layerを1に設定
@@ -425,11 +425,11 @@ public class Hiragana : MonoBehaviour
         // スプライトが表示されているか確認
         if (spriteRenderer.isVisible)
         {
-            collider2D.enabled = true; // コライダーを有効にする
+            colliderThis.enabled = true; // コライダーを有効にする
         }
         else
         {
-            collider2D.enabled = false; // コライダーを無効にする
+            colliderThis.enabled = false; // コライダーを無効にする
         }
 
         // Order in Layerを0に設定
