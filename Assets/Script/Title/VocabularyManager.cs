@@ -107,16 +107,17 @@ public class VocabularyManager : MonoBehaviour
     }
 
     // 単語をキューに追加するメソッド
-    public string AddWordToQueue(Queue<string> targetQueue)
+    public string AddWordToQueue(Queue<string> targetQueue,int len_ = 3)
     {
         System.Random random = new System.Random();
+        
         string selectedWord;
         int addedCount = 0;
         do
         {
             int index = random.Next(wordList.Count);
             selectedWord = wordList[index].reading;
-        } while (selectedWord.Length > 3);
+        } while (selectedWord.Length > len_);
 
         foreach (char c in selectedWord)
         {

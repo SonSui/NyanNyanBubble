@@ -68,13 +68,19 @@ public class GameManager : MonoBehaviour
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         resultText = GameObject.Find("ResultManager").GetComponent<ResultText>();
         hintText = GameObject.Find("HintManager").GetComponent<HintText>();
+        
+        // 特殊単語の初期化
         specialWords_Time = new string[] { "きかん", "きげん", "じかん", "とけい", "じだい", "じこく", "にちじ", "きじつ" };
         specialWords_More = new string[] { "いくた", "たよう", "ぞうか", "まし", "ふやす", "ます", "ふえる", "おおい" };
+
+        // スコアと時間の初期化
         score = 0;
         currentTime = timeMax;
         overText.enabled = false;
-        preScoreTimeR = 5f;
+        preScoreTimeR = 0f;
         preScoreTimeH = 13f;
+
+        // スコアと時間の更新
         UpdateScore();
         UpdateTime();
     }
@@ -88,17 +94,19 @@ public class GameManager : MonoBehaviour
         UpdateScore();
         UpdateTime();
 
-        
-        if(kanaboostTime > 0)
+
+        // バブル1上限の管理
+        if (kanaboostTime > 0)
         {
             kanaboostTime -= Time.deltaTime;
-            wordManager.hiraMaxNow = 30;
+            wordManager.hiraMaxNow = 23;
         }
         else
         {
-            wordManager.hiraMaxNow = 20;
+            wordManager.hiraMaxNow = 18;
         }
-
+        
+        // Hヒントの表示
         if (preScoreTimeR > PRE_SCORE_TIME_R) 
         {
             ShowHintWord();
@@ -121,6 +129,7 @@ public class GameManager : MonoBehaviour
 
         SPWord = wordManager.spWordNow;
         SPWordType = wordManager.spWordNowType;
+        
         // 時間が0になったらゲームオーバー
         if (currentTime <= 0)
         {
@@ -217,7 +226,7 @@ public class GameManager : MonoBehaviour
         }
         
     }
-
+    // キャンセル処理
     public void OnHiraganaCancel(Hiragana target)
     {
         bool isTargetExists = false;
@@ -233,10 +242,12 @@ public class GameManager : MonoBehaviour
             Debug.Log(target + " not found in queue");
         }
     }
+    // キュー内の平仮名をチェック
     private void CheckQueue()
     {
         int i = 0;
         Queue<Hiragana> tempQ = new Queue<Hiragana>();
+        // キュー内の平仮名を一つずつ取り出し、デバッグ情報を表示
         while (hiraNow.Count>0)
         {
             Hiragana temp = hiraNow.Dequeue();
@@ -273,6 +284,8 @@ public class GameManager : MonoBehaviour
             tempQ.Enqueue(temp);
         }
         hiraNow.Clear();
+
+        // キューを再構築
         while (tempQ.Count > 0)
         {
             temp = tempQ.Dequeue();
@@ -299,6 +312,7 @@ public class GameManager : MonoBehaviour
                         Debug.Log("Target found in slot");
                         int j = i;
                         i++;
+                        // スロットのシフト処理
                         for (; i < chilN; i++)
                         {
                             Transform preSlot = group.transform.GetChild(j);
@@ -500,6 +514,8 @@ public class GameManager : MonoBehaviour
         spIndex = 0;
         wordManager.RefreshAllHira();
     }
+
+    //ヒント
     private void ShowHintWord()
     {
         

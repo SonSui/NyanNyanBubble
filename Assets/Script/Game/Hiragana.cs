@@ -1,3 +1,4 @@
+// 必要なusingディレクティブ
 using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -15,18 +16,17 @@ public class Hiragana : MonoBehaviour
     private Color oriCol;
     private const float defOffsetX = -9.0f;
     private const float defEndX = 9.0f;
-    
-    private Vector3 posBeforeMove;
 
+    private Vector3 posBeforeMove;
 
     public SpriteRenderer spriteRenderer; // SpriteRendererの参照
     private Collider2D collider2D; // Collider2Dの参照
 
     public struct MouseAct
     {
-        public float magnificat;// 拡大率
-        public float rotAngles;// 回転角度
-        public int mouseOverType;// マウスオーバーアクションの種類
+        public float magnificat; // 拡大率
+        public float rotAngles; // 回転角度
+        public int mouseOverType; // マウスオーバーアクションの種類
         public Vector3 maxSize; // 最大サイズ
         public bool rotDirection;
 
@@ -40,9 +40,10 @@ public class Hiragana : MonoBehaviour
         }
     };
     public MouseAct mouse;
+
     public struct DefaultAction
     {
-        public int actType;// アクションの種類
+        public int actType; // アクションの種類
         public float rotAngles;
         public float timeCnt;
         public float radius;
@@ -54,7 +55,7 @@ public class Hiragana : MonoBehaviour
         public float offsetSpeed;
 
         public float oriSpeed;
-        public DefaultAction(int actType = 0, float timeCnt = 0, float radius = 1.0f, float speed = 2.0f, float offsetx = 5.0f,float offsetS=0.8f)
+        public DefaultAction(int actType = 0, float timeCnt = 0, float radius = 1.0f, float speed = 2.0f, float offsetx = 5.0f, float offsetS = 0.8f)
         {
             this.actType = actType;
             this.timeCnt = timeCnt;
@@ -65,7 +66,7 @@ public class Hiragana : MonoBehaviour
             this.moveDirection = 0;
             this.rotAngles = 0;
             this.offsetX = offsetx;
-            this.offsetSpeed=offsetS;
+            this.offsetSpeed = offsetS;
         }
     };
     public DefaultAction defAct;
@@ -80,34 +81,55 @@ public class Hiragana : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // SpriteRendererを取得
         collider2D = GetComponent<Collider2D>(); // Collider2Dを取得
+
+        // 初期スケールを小さな値に設定
+        transform.localScale = Vector3.zero;
     }
 
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>(); // GameManagerを見つける
-        transform.localScale = originalSize; // 元のサイズを保存
         worldScale = transform.lossyScale;
         originalPosition = transform.localPosition; // 元の位置を保存
         mouse = new MouseAct(2.2f, 0.1f);
-        float rx = math.min(math.abs(-5.5f - transform.localScale.x), math.abs(2.0f - transform.localScale.x));
+        /*float rx = math.min(math.abs(-5.5f - transform.localScale.x), math.abs(2.0f - transform.localScale.x));
         float ry = math.min(math.abs(-1.5f - transform.localScale.y), math.abs(1.5f - transform.localScale.y));
         float r = math.min(rx, ry);
-        float l = math.min(30, r);
+        float l = math.min(30, r);*/
+        float minRadius = 0.3f; // 最小半径を0.5に設定
+        float maxRadius = 0.8f; // 最大半径を1.5に設定
         defAct = new DefaultAction(
-            UnityEngine.Random.Range(1, 3),
+            UnityEngine.Random.Range(2, 3),
             UnityEngine.Random.Range(0, 90),
-            UnityEngine.Random.Range(l, r),
+            UnityEngine.Random.Range(minRadius, maxRadius),
             UnityEngine.Random.Range(1.0f, 3.0f),
             UnityEngine.Random.Range(-9f, 9f),
-            UnityEngine.Random.Range(0.3f,1.2f)
+            UnityEngine.Random.Range(0.3f, 1.2f)
             );
 
         spriteRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask; // デフォルトではマスク内で可視
+
+        // 生成時のアニメーションを開始
+        StartCoroutine(ScaleUpAnimation());
     }
 
-    void OnDestroy()
+    // 生成時のスケールアップアニメーションを実装
+    private System.Collections.IEnumerator ScaleUpAnimation()
     {
-       
+        float duration = 0.1f; // アニメーションの持続時間
+        float time = 0f;
+        Vector3 startScale = Vector3.zero; // 初期スケール
+        Vector3 endScale = originalSize; // 目標スケール
+      
+
+        while (time < duration)
+        {
+            transform.localScale = Vector3.Lerp(startScale, endScale, time / duration);
+            
+            time += Time.deltaTime;
+            yield return null;
+        }
+        transform.localScale = endScale; // 最終スケールを設定
     }
 
     void Update()
@@ -166,6 +188,9 @@ public class Hiragana : MonoBehaviour
         // マスクの影響を受けない
         spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
         collider2D.enabled = true; // コライダーを有効にする
+
+        // Order in Layerを1に設定
+        spriteRenderer.sortingOrder = 1;
     }
 
     public void OnHint()
@@ -202,6 +227,9 @@ public class Hiragana : MonoBehaviour
         {
             collider2D.enabled = false; // コライダーを無効にする
         }
+
+        // Order in Layerを0に設定
+        spriteRenderer.sortingOrder = 0;
     }
 
     public void NoSelectOption()
@@ -213,6 +241,9 @@ public class Hiragana : MonoBehaviour
         // マスクの影響を受けない
         spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
         collider2D.enabled = true; // コライダーを有効にする
+
+        // Order in Layerを1に設定
+        spriteRenderer.sortingOrder = 1;
     }
 
     public void NoMovingOption()
@@ -224,7 +255,7 @@ public class Hiragana : MonoBehaviour
     {
         return onMove;
     }
-
+    //デファクトアクション
     private void DefaultAct()
     {
         defAct.offsetX += defAct.offsetSpeed * Time.deltaTime;
@@ -321,6 +352,9 @@ public class Hiragana : MonoBehaviour
         spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
         collider2D.enabled = true; // コライダーを有効にする
 
+        // Order in Layerを1に設定
+        spriteRenderer.sortingOrder = 1;
+
         StartCoroutine(MoveToPosition(targetPosition)); // 指定位置に移動
     }
 
@@ -334,6 +368,9 @@ public class Hiragana : MonoBehaviour
         spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
         collider2D.enabled = true; // コライダーを有効にする
         posBeforeMove = transform.position;
+
+        // Order in Layerを1に設定
+        spriteRenderer.sortingOrder = 1;
 
         StartCoroutine(MoveToRoundTrip(targetPosition)); // 指定位置に移動し、元の位置に戻る
     }
@@ -394,6 +431,9 @@ public class Hiragana : MonoBehaviour
         {
             collider2D.enabled = false; // コライダーを無効にする
         }
+
+        // Order in Layerを0に設定
+        spriteRenderer.sortingOrder = 0;
     }
 
     public void SetOriginalScale()

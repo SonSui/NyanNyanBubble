@@ -99,7 +99,7 @@ public class SlotManager : MonoBehaviour
 
         Vector3 pos = group_.transform.position + new Vector3(1.3f * c, 0, 0);
         GameObject we = Instantiate(wordEffect[type], pos, Quaternion.identity);
-        we.transform.SetParent(newHira.transform);
+        we.transform.SetParent(group_.transform);
 
         group_.GetComponent<GroupState>().isHint = true;
         group_.GetComponent<GroupState>().thisWord = word;
