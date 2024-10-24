@@ -71,7 +71,7 @@ public class AudioManager : MonoBehaviour
     public void PlayMusic(AudioClip clip)
     {
 
-        if (musicSource.clip == clip && musicSource.isPlaying)
+        if (musicSource.clip == clip )
         {
             return;
         }
@@ -115,6 +115,7 @@ public class AudioManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         PlayMusicForCurrentScene();
+        Debug.Log("AudioManager SceneLoaded :"+scene.ToString());
     }
 
     public void SetMusicVolume(float volume)

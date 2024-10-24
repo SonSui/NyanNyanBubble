@@ -255,7 +255,7 @@ public class Hiragana : MonoBehaviour
     {
         return onMove;
     }
-
+    //デファクトアクション
     private void DefaultAct()
     {
         defAct.offsetX += defAct.offsetSpeed * Time.deltaTime;
