@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public ProcessController processController;
     private ScoreManager scoreManager;
     public AudioManager audioManager;
+    public StarEffect starEffect;
+    
     public bool isGameOver = false;
 
     // 現在の平仮名のキュー
@@ -68,7 +70,9 @@ public class GameManager : MonoBehaviour
         scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         resultText = GameObject.Find("ResultManager").GetComponent<ResultText>();
         hintText = GameObject.Find("HintManager").GetComponent<HintText>();
+        starEffect = GameObject.Find("StarEffect").GetComponent<StarEffect>();
         
+
         // 特殊単語の初期化
         specialWords_Time = new string[] { "きかん", "きげん", "じかん", "とけい", "じだい", "じこく", "にちじ", "きじつ" };
         specialWords_More = new string[] { "いくた", "たよう", "ぞうか", "まし", "ふやす", "ます", "ふえる", "おおい" };
@@ -210,6 +214,7 @@ public class GameManager : MonoBehaviour
                 resultText.ShowTextWithAudio(ttt);
                 slotManager.RemoveSlot(currGroup);
                 preScoreTimeR = 0;
+                UpdateScoreWithStar();
             }
 
             else
@@ -338,6 +343,13 @@ public class GameManager : MonoBehaviour
         scoreText.text = "点数\n" + score.ToString();
     }
 
+    private void UpdateScoreWithStar() 
+    {
+        RectTransform rectTransform = scoreText.GetComponent<RectTransform>();
+        Vector2 uiPosition = rectTransform.anchoredPosition;
+        scoreText.text = "点数\n" + score.ToString();
+        starEffect.PlayEffect(uiPosition);
+    }
     // 残り時間の更新
     private void UpdateTime()
     {
@@ -383,6 +395,7 @@ public class GameManager : MonoBehaviour
                 resultText.ShowTextWithAudio(ttt);
                 currentTime += 5;
                 UpdateTime();
+                processController.AddTimeEffect();
                 return true;
             }
         }
@@ -476,7 +489,7 @@ public class GameManager : MonoBehaviour
         string rText;
         int scoreTemp = SPWord.Length * 5+3;
         score += scoreTemp;
-        UpdateScore();
+        UpdateScoreWithStar();
 
         switch (SPWordType)
         {
@@ -488,6 +501,7 @@ public class GameManager : MonoBehaviour
                 rText =  "５秒取った　ニャン！";//scoreTemp.ToString() + "点ボーナスと" + 
                 currentTime += 5;
                 UpdateTime();
+                processController.AddTimeEffect();
                 resultText.ShowTextWithAudio(rText);
                 break;
             case 2:
